@@ -1,107 +1,155 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>こなすのタスク管理</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('✅ ServiceWorker登録成功:', reg.scope))
-                    .catch(err => console.log('⚠️ ServiceWorker登録失敗:', err));
-            });
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>こなすのタスク管理</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then((reg) => console.log("✅ ServiceWorker登録成功:", reg.scope))
+          .catch((err) => console.log("⚠️ ServiceWorker登録失敗:", err));
+      });
+    }
+  </script>
 </head>
 <body class="container">
-    <h1 class="text-center mt-4">こなすのタスク管理</h1>
+  <h1 class="text-center mt-4">こなすのタスク管理</h1>
 
-    <div class="card p-2">
-        <div class="time-summary">
-            <span class="time-badge morning" data-period="morning">
-                <span class="badge-title">終わるまで</span>  
-                <span class="time-badge-content">
-                    <i class="bi bi-brightness-alt-high morning-icon task-icon"></i>
-                    <span id="morning-summary">-</span>
-                </span>
-            </span>
-            <span class="time-badge afternoon" data-period="afternoon">
-                <span class="badge-title">終わるまで</span>
-                <span class="time-badge-content">
-                    <i class="bi bi-sun afternoon-icon task-icon"></i>
-                    <span id="afternoon-summary">-</span>
-                </span>
-            </span>
-            <span class="time-badge evening" data-period="evening">
-                <span class="badge-title">終わるまで</span>
-                <span class="time-badge-content">
-                    <i class="bi bi-sunset evening-icon task-icon"></i>
-                    <span id="evening-summary">-</span>
-                </span>
-            </span>
-            <span class="time-badge night" data-period="night">
-                <span class="badge-title">終わるまで</span>
-                <span class="time-badge-content">
-                    <i class="bi bi-moon night-icon task-icon"></i>
-                    <span id="night-summary">-</span>
-                </span>
-            </span>
-            <button onclick="location.reload();" class="refresh-btn">🔄</button>
-        </div>
+  <div class="card p-2">
+    <div class="time-summary">
+      <span class="time-badge morning" data-period="morning">
+        <span class="badge-title">終わるまで</span>
+        <span class="time-badge-content">
+          <i class="bi bi-brightness-alt-high morning-icon task-icon"></i>
+          <span id="morning-summary">-</span>
+        </span>
+      </span>
+      <span class="time-badge afternoon" data-period="afternoon">
+        <span class="badge-title">終わるまで</span>
+        <span class="time-badge-content">
+          <i class="bi bi-sun afternoon-icon task-icon"></i>
+          <span id="afternoon-summary">-</span>
+        </span>
+      </span>
+      <span class="time-badge evening" data-period="evening">
+        <span class="badge-title">終わるまで</span>
+        <span class="time-badge-content">
+          <i class="bi bi-sunset evening-icon task-icon"></i>
+          <span id="evening-summary">-</span>
+        </span>
+      </span>
+      <span class="time-badge night" data-period="night">
+        <span class="badge-title">終わるまで</span>
+        <span class="time-badge-content">
+          <i class="bi bi-moon night-icon task-icon"></i>
+          <span id="night-summary">-</span>
+        </span>
+      </span>
+      <button onclick="location.reload();" class="refresh-btn">🔄</button>
     </div>
+  </div>
 
-    <div class="card p-2">
-        <h2 class="text-center">タスクを追加</h2>
-        <form id="task-form">
+  <div class="card p-2">
+    <h2 class="text-center">タスクを追加</h2>
+    <form id="task-form">
+      <div class="mb-2">
+        <input type="text" id="task-name" class="form-control form-control-sm" placeholder="タスク名" required autocomplete="off">
+      </div>
+      <div class="d-flex gap-2">
+        <input type="number" id="task-duration" class="form-control form-control-sm" placeholder="時間（分）" required autocomplete="off">
+        <select id="task-time-period" class="form-select form-select-sm">
+          <option value="朝">朝</option>
+          <option value="昼">昼</option>
+          <option value="夕方">夕方</option>
+          <option value="夜">夜</option>
+        </select>
+        <select id="task-priority" class="form-select form-select-sm">
+          <option value="1">低</option>
+          <option value="2">中</option>
+          <option value="3">高</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">＋</button>
+      </div>
+    </form>
+  </div>
+
+  <ul class="nav nav-tabs fixed-bottom bg-light" id="taskTabs">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#all">📋 全体</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#morning"><i class="bi bi-brightness-alt-high morning-icon task-icon"></i> 朝</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#afternoon"><i class="bi bi-sun afternoon-icon task-icon"></i> 昼</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#evening"><i class="bi bi-sunset evening-icon task-icon"></i> 夕方</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#night"><i class="bi bi-moon night-icon task-icon"></i> 夜</a></li>
+  </ul>
+
+  <div class="tab-content mt-3">
+    <div id="all" class="tab-pane fade show active">
+      <h3>📋 全体のタスク</h3>
+      <div id="task-list" class="task-list"></div>
+    </div>
+    <div id="morning" class="tab-pane fade"><h3>🌅 朝のタスク</h3><div class="task-list" data-period="朝"></div></div>
+    <div id="afternoon" class="tab-pane fade"><h3>🌞 昼のタスク</h3><div class="task-list" data-period="昼"></div></div>
+    <div id="evening" class="tab-pane fade"><h3>🌇 夕方のタスク</h3><div class="task-list" data-period="夕方"></div></div>
+    <div id="night" class="tab-pane fade"><h3>🌙 夜のタスク</h3><div class="task-list" data-period="夜"></div></div>
+  </div>
+
+  <!-- 編集モーダル -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <div class="modal-header">
+          <h5 class="modal-title">タスクの編集</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          <form id="edit-form">
+            <input type="hidden" id="edit-index" />
             <div class="mb-2">
-                <input type="text" id="task-name" class="form-control form-control-sm" placeholder="タスク名" required autocomplete="off">
+              <label class="form-label">タスク名</label>
+              <input type="text" id="edit-name" class="form-control" required />
             </div>
-            <div class="d-flex gap-2">
-                <input type="number" id="task-duration" class="form-control form-control-sm" placeholder="時間（分）" required autocomplete="off">
-                <select id="task-time-period" class="form-select form-select-sm">
-                    <option value="朝">朝</option>
-                    <option value="昼">昼</option>
-                    <option value="夕方">夕方</option>
-                    <option value="夜">夜</option>
-                </select>
-                <select id="task-priority" class="form-select form-select-sm">
-                    <option value="1">低</option>
-                    <option value="2">中</option>
-                    <option value="3">高</option>
-                </select>
-                <button type="submit" class="btn btn-primary btn-sm">＋</button>
+            <div class="mb-2">
+              <label class="form-label">所要時間（分）</label>
+              <input type="number" id="edit-duration" class="form-control" required />
             </div>
-        </form>
-    </div>
-
-    <ul class="nav nav-tabs fixed-bottom bg-light" id="taskTabs">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#all">📋 全体</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#morning"><i class="bi bi-brightness-alt-high morning-icon task-icon"></i> 朝</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#afternoon"><i class="bi bi-sun afternoon-icon task-icon"></i> 昼</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#evening"><i class="bi bi-sunset evening-icon task-icon"></i> 夕方</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#night"><i class="bi bi-moon night-icon task-icon"></i> 夜</a></li>
-    </ul>
-
-    <div class="tab-content mt-3">
-        <div id="all" class="tab-pane fade show active">
-            <h3>📋 全体のタスク</h3>
-            <div id="task-list" class="task-list"></div>
+            <div class="mb-2">
+              <label class="form-label">時間帯</label>
+              <select id="edit-time-period" class="form-select">
+                <option value="朝">朝</option>
+                <option value="昼">昼</option>
+                <option value="夕方">夕方</option>
+                <option value="夜">夜</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">重要度</label>
+              <select id="edit-priority" class="form-select">
+                <option value="1">低</option>
+                <option value="2">中</option>
+                <option value="3">高</option>
+              </select>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="button" id="delete-task" class="btn btn-danger">削除</button>
+              <button type="submit" class="btn btn-primary">更新</button>
+            </div>
+          </form>
         </div>
-        <div id="morning" class="tab-pane fade"><h3>🌅 朝のタスク</h3><div class="task-list" data-period="朝"></div></div>
-        <div id="afternoon" class="tab-pane fade"><h3>🌞 昼のタスク</h3><div class="task-list" data-period="昼"></div></div>
-        <div id="evening" class="tab-pane fade"><h3>🌇 夕方のタスク</h3><div class="task-list" data-period="夕方"></div></div>
-        <div id="night" class="tab-pane fade"><h3>🌙 夜のタスク</h3><div class="task-list" data-period="夜"></div></div>
+      </div>
     </div>
+  </div>
 
-    <script src="scripts.js"></script>
+  <script src="scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

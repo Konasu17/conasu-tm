@@ -310,3 +310,14 @@ p {
     }
 }
 
+/* === タスク表示の行デザイン微調整のみ === */
+.list-group-item {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px 8px !important;
+  margin-bottom: 3px !important;
+}
+
+.task-name {
+  font-size: 13px !important;
+}
