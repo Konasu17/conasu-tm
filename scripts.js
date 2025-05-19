@@ -209,5 +209,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // タブ切り替え時にフォームの時間帯初期値を変更
+document.querySelectorAll(".nav-link").forEach(tab => {
+  tab.addEventListener("click", function () {
+    const href = this.getAttribute("href").replace("#", "");
+    const mapping = {
+      morning: "朝",
+      afternoon: "昼",
+      evening: "夕方",
+      night: "夜"
+    };
+    if (mapping[href]) {
+      document.getElementById("task-time-period").value = mapping[href];
+    }
+  });
+});
+
   renderTasks();
 });
