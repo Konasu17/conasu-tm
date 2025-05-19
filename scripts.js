@@ -24,23 +24,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const timeTotals = { "朝": 0, "昼": 0, "夕方": 0, "夜": 0 };
 
     tasks.forEach((task, index) => {
+      if (!task.completed) {
+        const mins = parseInt(task.duration);
+        if (!timeTotals[task.timePeriod]) timeTotals[task.timePeriod] = 0;
+        timeTotals[task.timePeriod] += mins;
+      }
       const el = createTaskElement(task, index);
-      
-    const allEl = createTaskElement(task, index);
-    taskListAll.appendChild(allEl);
-    
+      taskListAll.appendChild(el);
       const tabList = document.querySelector(`.task-list[data-period='${task.timePeriod}']`);
-      
-    if (tabList) {
+      if (tabList) {
         const tabEl = createTaskElement(task, index);
         tabList.appendChild(tabEl);
-    }
-    
-      if (!task.completed) timeTotals[task.timePeriod] += parseInt(task.duration);
+      }
     });
 
     Object.entries(timeTotals).forEach(([period, total]) => {
-      timeSummary[period].textContent = total > 0 ? `${total}分` : "完了 🎉";
+      const badge = timeSummary[period];
+      if (!badge) return;
+      if (total > 0) {
+        const end = new Date();
+        end.setMinutes(end.getMinutes() + total);
+        const hh = end.getHours().toString().padStart(2, '0');
+        const mm = end.getMinutes().toString().padStart(2, '0');
+        badge.textContent = `${total}分 → 🕒 ${hh}:${mm}`;
+      } else {
+        badge.textContent = "完了 🎉";
+      }
     });
 
     initializeSortable();
