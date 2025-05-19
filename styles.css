@@ -348,3 +348,19 @@ h1, h2, h3, h4, h5, h6 {
                'YuGothic',
                sans-serif !important;
 }
+
+/* 親要素の overflow を上書きしてスクロール可にする */
+.task .d-flex {
+  overflow: visible !important;
+}
+
+/* タスク名は横スクロール */
+.task-name {
+  overflow-x: auto !important;
+  white-space: nowrap;
+  text-overflow: unset;
+  -webkit-overflow-scrolling: touch; /* iOSで慣性スクロール */
+}
+
+/* スクロールバーを隠す（任意） */
+.task-name::-webkit-scrollbar { display: none; }
