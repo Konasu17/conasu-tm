@@ -1,0 +1,312 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 10px; /* 余白を狭くする */
+    max-width: 400px; /* 画面幅を狭く */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+.task {
+    cursor: grab;
+}
+
+.task-icon {
+    font-size: 1.2rem; /* アイコンのサイズ */
+    border-radius: 50%; /* 丸くする */
+    padding: 4px; /* 余白を確保 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 時間帯ごとの色付け（アイコン背景） */
+.morning-icon { color: rgba(255, 240, 27, 0.993);
+    background: rgb(64, 217, 255);
+}
+.afternoon-icon { color: rgba(255, 53, 27, 0.938);
+    background: rgb(255, 238, 162);
+}
+.evening-icon { color: rgb(255, 115, 0); 
+    background:rgba(212, 206, 255);
+} /* 夕方：ピンク */
+.night-icon { color: rgb(255, 230, 6); 
+    background:rgb(84, 71, 136);
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #fff;
+}
+
+.sortable-ghost {
+    background-color: #f8f9fa;
+    opacity: 0.7;
+}
+
+.btn {
+    margin-left: 5px;
+}
+
+/* 編集ボタンのカスタムデザイン */
+.edit-btn {
+    width: 24px; /* ボタンサイズ */
+    height: 24px;
+    padding: 0; /* 余白をなくす */
+    margin-left: 5px; /* 左の余白 */
+    border-radius: 6px; /* 丸いボタンにする */
+    background-color: transparent; /* 背景を透明に */
+    border: 1px solid #ccc; /* 控えめな枠線 */
+    display: flex; /* アイコンを中央配置 */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s; /* ホバー時のアニメーション */
+}
+
+/* ボタン内のアイコンを中央に配置 */
+.edit-btn i {
+    font-size: 1rem; /* アイコンサイズ */
+    margin: 0;
+    color: #666; /* 控えめな色 */
+}
+
+/* ホバー時のスタイル */
+.edit-btn:hover {
+    background-color: #f0f0f0; /* 薄いグレー */
+    border-color: #888;
+}
+
+.text-purple {
+    color: #6a0dad !important; /* 落ち着いた紫 */
+}
+
+h1, h2 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700; /* 太字を適用 */
+    text-align: center;
+}
+
+h3, p, span {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 400; /* 通常の太さ */
+}
+
+h2, h3 {
+    line-height: 1.2; /* 標準の 1.5 から 1.2 に調整 */
+}
+
+p {
+    line-height: 2 !important;
+    text-align: center;
+}
+
+.time-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4); /* グラデーションで派手に */
+    padding: 8px 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.time-summary-header h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.refresh-btn {
+    background-color: white;
+    border: none;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.refresh-btn:hover {
+    background-color: #ffd6e0;
+}
+
+.time-summary {
+    display: inline-flex !important;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.time-badge {
+    display: flex;
+    flex-direction: row; /* 横並びにする */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    min-width: 110px;
+    white-space: nowrap; /* 1行で表示 */
+}
+
+.time-badge i {
+    margin-right: 5px; /* アイコンとテキストの間隔 */
+    font-size: 1.2rem; /* アイコンのサイズ調整 */
+    vertical-align: middle; /* アイコンとテキストを揃える */
+}
+
+.time-badge-content {
+    display: flex;
+    align-items: center; /* アイコンとテキストを縦方向に揃える */
+    gap: 5px; /* アイコンとテキストの間隔 */
+}
+.badge-title {
+    font-size: 0.6rem; /* フリガナ風に小さく */
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: normal;
+    opacity: 0.8;
+    white-space: nowrap; /* これを追加 → 強制的に1行で表示 */
+}
+
+/* 各時間帯の色付け */
+.morning { background: rgb(64, 217, 255); color: #ffffff; }
+.afternoon { background: rgb(255, 238, 162); color: #8b5a00; }
+.evening { background: rgb(212, 206, 255); color: #8b5a00; }
+.night { background: rgb(84, 71, 136); color: #ffffff; }
+
+.drag-handle {
+    font-size: 1.5rem; /* アイコンを大きめに */
+    cursor: grab; /* ドラッグ可能にする */
+    user-select: none; /* テキスト選択を防ぐ */
+    padding: 5px;
+    margin-left: 8px;
+    display: inline-block; /* インライン要素にする */
+    color: #666; /* グレーにして控えめに */
+}
+
+.drag-handle:hover {
+    color: #333; /* ホバー時に色を濃く */
+}
+
+/* タブメニューを下部に固定 */
+.nav-tabs {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #f8f9fa;
+    padding: 5px 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;  /* タブを中央に寄せる */
+}
+
+/* タブのボタンサイズを調整 */
+.nav-tabs .nav-link {
+    font-size: 14px;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;  /* アイコンとテキストの間隔を統一 */
+    border-radius: 10px 10px 0 0;
+    transition: background-color 0.2s;
+}
+
+/* ✅ タブ選択時のデザイン */
+.nav-tabs .nav-link.active {
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4); /* 選択時の背景 */
+    color: white !important;
+    font-weight: bold;
+}
+
+
+/* タスクリストがタブに被らないように */
+.task-list {
+    padding-bottom: 60px;
+}
+
+/* 小さい画面（iPhone）向けの調整 */
+@media (max-width: 576px) {
+    
+    /* タスク一覧を1行に収める */
+    .task {
+        font-size: 14px;  /* タスクのフォントを小さめに */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3px; /* 間隔を小さく */
+        flex-wrap: nowrap; /* 改行を防ぐ */
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .task-name, .task-duration, .important-badge {
+        white-space: nowrap; /* 自動改行を防ぐ */
+        font-size: 14px; /* 小さめのフォントに調整 */
+    }
+
+    /* ボタンサイズ調整 */
+    .edit-btn {
+        width: 20px; /* モバイルではさらに小さく */
+        height: 20px;
+    }
+
+    .edit-btn i {
+        font-size: 0.9rem; /* モバイル用にアイコンを調整 */
+    }
+
+    .small-btn {
+        font-size: 12px;
+        padding: 2px 6px; /* ボタンのサイズを小さく */
+        white-space: nowrap; /* ボタン内のテキストが改行されないように */
+    }
+    
+    .important-badge {
+        display: inline-block;
+        margin-left: 5px;
+    }
+    
+    .btn-sm {
+        font-size: 12px;
+        padding: 2px 6px; /* ボタンの幅を狭く */
+    }
+
+    h1 {
+        font-size: 14px;  /* タイトルを小さく */
+    }
+
+    h2 {
+        font-size: 1.2rem !important;
+        white-space: nowrap; /* タイトルが改行されないように */
+    }
+
+    h3 {
+        font-size: 1rem !important;
+    }
+
+    .btn {
+        font-size: 14px;  /* ボタンのフォントサイズも統一 */
+        margin-bottom: 5px;  /* 各ボタンの間隔を開ける */
+    }
+
+    .bi {
+        font-size: 1.2em;  /* アイコンを少し大きく */
+    }
+}
+
