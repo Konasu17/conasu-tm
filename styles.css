@@ -364,3 +364,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* スクロールバーを隠す（任意） */
 .task-name::-webkit-scrollbar { display: none; }
+
+/* Safariのズーム防止（16px未満だと拡大される） */
+input, select, textarea {
+  font-size: 16px !important;
+}
