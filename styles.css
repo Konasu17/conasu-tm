@@ -321,3 +321,8 @@ p {
 .task-name {
   font-size: 13px !important;
 }
+
+/* ✅ iPhone Safariでのズームを防止するために、フォーム要素のフォントサイズを16px以上に */
+input, select, textarea {
+  font-size: 16px !important;
+}
