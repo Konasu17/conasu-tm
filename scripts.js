@@ -226,4 +226,38 @@ document.querySelectorAll(".nav-link").forEach(tab => {
 });
 
   renderTasks();
+
+  /* ===== バックアップ機能 ===== */
+// --- エクスポート（ダウンロード）
+document.getElementById("export-btn").addEventListener("click", () => {
+  const tasks = localStorage.getItem("tasks") || "[]";
+  const blob  = new Blob([tasks], {type: "application/json"});
+  const url   = URL.createObjectURL(blob);
+  const a     = document.createElement("a");
+  a.href = url;
+  a.download = "tasks_backup_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// --- インポート（選択→読込）
+document.getElementById("import-input").addEventListener("change", evt => {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      // JSON が正しいかチェック
+      JSON.parse(e.target.result);
+      localStorage.setItem("tasks", e.target.result);
+      alert("インポート完了！画面を更新します。");
+      location.reload();
+    } catch(err) {
+      alert("読み込んだファイルが不正です…");
+    }
+  };
+  reader.readAsText(file);
+});
+/* =========================== */
+
 });

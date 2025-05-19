@@ -22,10 +22,28 @@
       });
     }
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 <body class="container">
-  <h1 class="text-center mt-4">こなすのタスク管理</h1>
+  <!-- ▼ タイトル＋バックアップアイコン -------------------------------- -->
+  <div class="d-flex align-items-center mt-4">
 
+  <!-- タイトルをflexで伸ばし中央寄せ -->
+    <h1 class="flex-grow-1 text-center m-0">こなすのタスク管理</h1>
+
+  <!-- ボタンアイコン（同じクラスでサイズ統一） -->
+    <button id="export-btn" class="btn-icon" title="エクスポート">
+      <i class="bi bi-box-arrow-up"></i>
+    </button>
+
+    <label class="btn-icon mb-0" title="インポート">
+      <i class="bi bi-box-arrow-in-down"></i>
+      <input id="import-input" type="file" accept=".json" style="display:none">
+    </label>
+
+  </div>
+  <!-- ▲---------------------------------------------------------------- -->
   <div class="card p-2">
     <div class="time-summary">
       <span class="time-badge morning" data-period="morning">

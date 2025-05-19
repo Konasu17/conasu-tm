@@ -1,5 +1,4 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 10px; /* 余白を狭くする */
     max-width: 400px; /* 画面幅を狭く */
     margin-left: auto;
@@ -288,7 +287,7 @@ p {
     }
 
     h1 {
-        font-size: 14px;  /* タイトルを小さく */
+        font-size: 20px;  /* タイトルを小さく */
     }
 
     h2 {
@@ -322,20 +321,30 @@ p {
   font-size: 13px !important;
 }
 
-/* ✅ iPhone Safariでのズームを防止するために、フォーム要素のフォントサイズを16px以上に */
-input, select, textarea {
-  font-size: 16px !important;
+/* ------ バックアップアイコン共通スタイル ------ */
+.btn-icon{
+  width: 34px;           /* iOSでもタッチしやすい */
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #adb5bd; /* Bootstrap の btn-outline-secondary に近い色 */
+  border-radius: .5rem;
+  background:#fff;
+  padding:0;             /* 余白ゼロでサイズを揃える */
+  font-size: 1.2rem;     /* アイコン大きさ */
+}
+.btn-icon:active{
+  background:#e9ecef;    /* 押したとき薄いグレー */
 }
 
-/* ✅ 長いタスク名を横スクロールで読めるように */
-.task-name {
-  overflow-x: auto;
-  white-space: nowrap;
-  text-overflow: unset;
-  max-width: 160px;
-  display: inline-block;
-}
-
-.task-name::-webkit-scrollbar {
-  display: none;
+/* ==== アプリ全体を丸ゴシックへ統一 ==================== */
+body, button, input, select, textarea,
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Zen Maru Gothic',
+               'Hiragino Maru Gothic Pro',
+               'Hiragino Maru Gothic',
+               'HG丸ｺﾞｼｯｸM-PRO',
+               'YuGothic',
+               sans-serif !important;
 }
