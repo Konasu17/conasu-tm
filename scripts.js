@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const name = document.createElement("span");
     name.className = "task-name text-truncate";
     name.style.maxWidth = "160px";
-    name.textContent = `${task.name} (${task.duration}分)`;
+    name.textContent = `(${task.duration}分) ${task.name}`;
     inner.appendChild(name);
 
     const badge = document.createElement("span");
@@ -188,26 +188,50 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  /* --- ここだけ置き換え --- */
   function initializeSortable() {
     document.querySelectorAll(".task-list").forEach(list => {
-      if (!list.classList.contains("sortable-initialized")) {
-        new Sortable(list, {
-          animation: 150,
-          handle: ".drag-handle",
-          onEnd: () => {
-            const allTasks = [];
-            document.querySelectorAll("#task-list .task").forEach(el => {
-              const idx = parseInt(el.getAttribute("data-index"));
-              allTasks.push(getTasks()[idx]);
-            });
-            saveTasks(allTasks);
-            renderTasks();
+      if (list.classList.contains("sortable-initialized")) return;
+
+      new Sortable(list, {
+        animation: 150,
+        handle: ".drag-handle",
+
+        /** 並べ替え終了時 **/
+        onEnd: (evt) => {
+          const toList      = evt.to;                    // ドロップ先リスト
+          const period      = toList.dataset.period;     // undefined ⇒ “全体” タブ
+          const tasks       = getTasks();                // 現在の配列
+          const orderedEls  = Array.from(toList.children);
+          const newIndexes  = orderedEls.map(el => +el.dataset.index);
+
+          if (!period) {
+            /* === “全体” タブ === */
+            const newOrder = newIndexes.map(i => tasks[i]);
+            saveTasks(newOrder);
+
+          } else {
+            /* === 朝・昼・夕方・夜タブ === */
+            // ① 並べ替え後の同一時間帯タスクを抽出
+            const reorderedSamePeriod = newIndexes.map(i => tasks[i]);
+
+            // ② 元配列の当該時間帯部分だけ置き換え
+            let p = 0;
+            const newTasks = tasks.map(t =>
+              t.timePeriod === period ? reorderedSamePeriod[p++] : t
+            );
+
+            saveTasks(newTasks);
           }
-        });
-        list.classList.add("sortable-initialized");
-      }
+
+          renderTasks();       // 画面を最新化
+        }
+      });
+
+      list.classList.add("sortable-initialized");
     });
   }
+  /* --- ここまで --- */
 
   document.querySelectorAll(".nav-link").forEach(tab => {
     tab.addEventListener("shown.bs.tab", () => {
