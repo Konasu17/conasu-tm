@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const name = document.createElement("span");
     name.className = "task-name text-truncate";
-    name.style.maxWidth = "160px";
+    name.style.maxWidth = "180px";
     name.textContent = `(${task.duration}分) ${task.name}`;
     inner.appendChild(name);
 
